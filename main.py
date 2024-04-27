@@ -12,7 +12,7 @@ from src import WebSocketManager, RssReader
 
 app = FastAPI(
     title="Sentiment WS Producer from RSS Headlines",
-    version='0.1.2'
+    version='0.1.3'
 )
 
 socket_manager = WebSocketManager()
