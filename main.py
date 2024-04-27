@@ -18,10 +18,6 @@ app = FastAPI(
 socket_manager = WebSocketManager()
 rss_reader = RssReader()
 
-# Define the model name and the path for the locally saved model
-model_name = "distilbert-base-uncased-finetuned-sst-2-english"
-local_model_path = "./models/distilbert"
-
 
 def text_producer() -> List[str]:
     # Loads an array of text from an RSS feed
@@ -32,12 +28,14 @@ def text_producer() -> List[str]:
         logging.error(f'Error fetching news headlines: {str(e)}')
 
 
-# Function to load or download the model
+model_name = "huawei-noah/TinyBERT_General_4L_312D"  # Example TinyBERT model
+local_model_path = "./models/tinybert"
+
+
 def load_model():
     if os.path.exists(local_model_path):
         logging.info("Loading model from local directory.")
-        model = AutoModelForSequenceClassification.from_pretrained(
-            local_model_path)
+        model = AutoModelForSequenceClassification.from_pretrained(local_model_path)
         tokenizer = AutoTokenizer.from_pretrained(local_model_path)
     else:
         logging.info("Downloading and saving model for the first time.")
@@ -86,8 +84,8 @@ async def websocket_endpoint(websocket: WebSocket):
     await socket_manager.connect(websocket)
     try:
         while True:
-            data = await websocket.receive_text()
-            await websocket.send_text(f"Message text was: {data}")
+            # data = await websocket.receive_text()
+            await sentiment_analyzer(websocket)
     except Exception as e:
         print(f"WebSocket error: {e}")
     finally:
