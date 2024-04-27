@@ -1,5 +1,5 @@
 #  Distilbert Model
-./models/
+models/
 
 # Venv
 venv/
