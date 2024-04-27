@@ -86,7 +86,8 @@ async def websocket_endpoint(websocket: WebSocket):
     await socket_manager.connect(websocket)
     try:
         while True:
-            await sentiment_analyzer(websocket)
+            data = await websocket.receive_text()
+            await websocket.send_text(f"Message text was: {data}")
     except Exception as e:
         print(f"WebSocket error: {e}")
     finally:
