@@ -71,7 +71,7 @@ async def sentiment_analyzer(websocket: WebSocket):
 
         # Send sentiment data to the client
         await websocket.send_json(sentiment_data)
-        await asyncio.sleep(100)  # Wait for 100 seconds
+        await asyncio.sleep(60)  # Wait for 60 seconds
 
 
 @app.get("/")
